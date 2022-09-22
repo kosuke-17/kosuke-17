@@ -1,4 +1,4 @@
-<h2 align="center">Languages and Tools</h2>
+<h2 align="center">My Favorite Languages and Tools</h2>
 <table>
   <tr>
     <td align="center" width="96">
