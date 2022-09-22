@@ -1,5 +1,5 @@
 <h2 align="center" id="macropower-tech">Languages and Tools</h2>
-<table>
+<table style="background-color: #f5f5f5; color: black">
   <tr>
     <td align="center" width="96">
       <a href="#macropower-tech">
@@ -17,7 +17,7 @@
     </td>
     <td align="center" width="96">
       <a href="#macropower-tech">
-        <img src="./img/react.png" width="48" height="48" alt="React" />
+        <img src="./img/react.png" width="50" height="48" alt="React" />
       </a>
       <br>
       <b>React</b>
@@ -42,6 +42,13 @@
       </a>
       <br>
       <b>Nestjs</b>
+    </td>
+    <td align="center" width="96">
+      <a href="#macropower-tech">
+        <img src="./img/prisma-3.svg" width="48" height="48" alt="Prisma" />
+      </a>
+      <br>
+      <b>Prisma</b>
     </td>
     
   </tr>
