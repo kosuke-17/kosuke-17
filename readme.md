@@ -1,3 +1,9 @@
+<h2 align="left">Programming Language</h3>
+<p align="left">
+<img src="https://github-readme-stats.vercel.app/api/top-langs?username=kosuke-17&show_icons=true&locale=en&layout=compact" height="150px"　alt="kosuke-17" />
+ <img src="https://github-readme-stats.vercel.app/api?username=kosuke-17&show_icons=true&locale=en" height="150px" alt="kosuke-17" />
+</p>
+
 <h2 align="center">My Favorite Languages and Tools</h2>
 <table>
   <tr>
