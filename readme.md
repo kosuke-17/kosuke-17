@@ -1,61 +1,22 @@
-<h2 align="left">Programming Language</h3>
+# Skills
+
+### 😎 実務経験あり(1 年以上)
+
+<img alt="my skills" src="https://skillicons.dev/icons?theme=light&perline=8&i=ts,js,html,css,nodejs,react,nextjs,nestjs,redux,prisma,aws,materialui,jest,git,github,figma,vscode" />
+
+### 😚 実務経験あり(1 年未満)
+
+<img alt="my skills" src="https://skillicons.dev/icons?theme=light&perline=8&i=mongodb,docker,fastapi,py,mysql,postman" />
+
+### 😇 実務経験なし
+
+<img alt="my skills" src="https://skillicons.dev/icons?theme=light&perline=8&i=vue,tailwind,apollo,graphql,heroku,firebase,rails,ruby" />
+
+## 📈 Status
+
 <p align="left">
-<img src="https://github-readme-stats.vercel.app/api/top-langs?username=kosuke-17&show_icons=true&locale=en&layout=compact" height="150px"　alt="kosuke-17" />
+<img src="https://github-readme-stats.vercel.app/api/top-langs?username=kosuke-17&show_icons=true&locale=en&layout=compact" height="150px" alt="kosuke-17" />
  <img src="https://github-readme-stats.vercel.app/api?username=kosuke-17&show_icons=true&locale=en" height="150px" alt="kosuke-17" />
 </p>
 
-<h2 align="center">My Favorite Languages and Tools</h2>
-<table>
-  <tr>
-    <td align="center" width="96">
-      <a href="https://www.typescriptlang.org/">
-        <img src="./img/typescript.png" width="48" height="48" alt="TypeScript" />
-      </a>
-      <br>
-      <b>TypeScript</b>
-    </td>
-    <td align="center" width="96">
-      <a href="https://developer.mozilla.org/ja/docs/Web/JavaScript">
-        <img src="./img/javascript.png" width="48" height="48" alt="JavaScript" />
-      </a>
-      <br>
-      <b>JavaScript</b>
-    </td>
-    <td align="center" width="96">
-      <a href="https://ja.reactjs.org/">
-        <img src="./img/react.png" width="50" height="48" alt="React" />
-      </a>
-      <br>
-      <b>React</b>
-    </td>
-    <td align="center" width="96">
-      <a href="https://nextjs.org/">
-        <img src="./img/nextjs.png" width="48" height="48" alt="Next.js" style="background-color: #f5f5f5;" />
-      </a>
-      <br>
-      <b>Next.js</b>
-    </td>
-    <td align="center" width="96">
-      <a href="https://nodejs.org/ja/">
-        <img src="./img/nodejs.png" width="48" height="48" alt="Nodejs" />
-      </a>
-      <br>
-      <b>Nodejs</b>
-    </td>
-    <td align="center" width="96">
-      <a href="https://nestjs.com/">
-        <img src="./img/nestjs.png" width="48" height="48" alt="Nestjs" />
-      </a>
-      <br>
-      <b>Nestjs</b>
-    </td>
-    <td align="center" width="96">
-      <a href="https://www.prisma.io/">
-        <img src="./img/prisma-3.svg" width="48" height="48" alt="Prisma" style="background-color: #f5f5f5;" />
-      </a>
-      <br>
-      <b>Prisma</b>
-    </td>
-    
-  </tr>
-</table>
+[![trophy](https://github-profile-trophy.vercel.app/?username=kosuke-17&margin-w=5)](https://github.com/kosuke-17/)
