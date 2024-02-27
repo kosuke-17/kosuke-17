@@ -6,6 +6,4 @@ useState はどのようにして状態を返してるのか。useState が trig
 
 ## References
 
-[How does React know which state to return?
-
-](https://react.dev/learn/state-a-components-memory#how-does-react-know-which-state-to-return)
+[How does React know which state to return?](https://react.dev/learn/state-a-components-memory#how-does-react-know-which-state-to-return)
