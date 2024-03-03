@@ -1,45 +1,49 @@
-<!-- TODO -->
+# Rendering Lists
 
-## Rendering Lists
+## Why(なぜ Rendering Lists を使うのか)
 
-- 一覧データの違いが内容のみである場合は、同様のインターフェイス(見た目)で表示される
+- 同じ内容で同様の UI(Component) を提供したい場合、それらのデータが配列であれば JavaScript の map メソッドや filter メソッドを使用することで実現が可能
 
-  - そのときに、一覧データが配列であれば map メソッドを使用して、一覧の内容を表示させる。
-  - 特定の条件に当てはまる一覧データのみを表示したければ、filter メソッドを利用して一覧データの絞り込みを行う。
-  - map メソッドを利用して、一覧データを表示するときにユニークな識別値(string or number)を key として渡す必要がある。
+## What(Rendering Lists は何をするのか)
 
-  - map のコールバック関数は中括弧で囲む場合は return を明示的に書くと返り値を返す。中括弧を省略すると return を明示的に書く必要がなくなる。
+- データが配列であれば map メソッドを使用して一覧の内容を表示する
 
-    - 一覧データの順番が変わったり、追加、削除されたときに正しい更新として DOM tree に知らせる役割がある。
+  - filter メソッドを使用すれば意図した内容のみ表示するように絞り込みが可能
+  - 一覧の内容のそれぞれの HTML にユニークな識別値を key 属性として渡す必要がある
+    - 内容それぞれの順番が変わるとき、新たな内容が追加/削除されるときに DOM tree に知らせるため
+    - root が空の JSX タグ `<></>`の場合に key を記述することができない。その場合は Fragment コンポーネントを明示的に使用する。(`<></>`は Fragment コンポーネントの省略記法)
 
-  - DOM node が複数の場合は root のタグが`<>...</>`のようになる。この場合には key を記述することができない。その場合は Fragment コンポーネントを使用する。
+## How(どう使うのか)
 
-  ```javascript
-  const listItems = chemists.map((person) => <li>...</li>) // Implicit return!
+```javascript
+//EX1
+const listItems = people.map((person) => (
+  <div key={person.id}>
+    <h1>{person.name}</h1>
+    <p>{person.bio}</p>
+  </div>
+))
 
-  // Curly brace
-  const listItems = chemists.map((person) => {
-    return <li>...</li>
-  })
+// EX2
+// use Fragment when there is several DOM nodes.
+import { Fragment } from 'react'
+const listItems = people.map((person) => (
+  <Fragment key={person.id}>
+    <h1>{person.name}</h1>
+    <p>{person.bio}</p>
+  </Fragment>
+))
 
-  // use Fragment when there is several DOM nodes.
-  import { Fragment } from 'react'
-  const listItems = people.map((person) => (
-    <Fragment key={person.id}>
-      <h1>{person.name}</h1>
-      <p>{person.bio}</p>
-    </Fragment>
-  ))
-  ```
+// Bad EX: shoud use Fragment like above
+// const listItems = people.map((person) => (
+//   < key={person.id}>
+//     <h1>{person.name}</h1>
+//     <p>{person.bio}</p>
+//   </>
+// ))
+```
 
-- どこから一意の Key を取得するのか
-  - DB から ID などのユニークな値を利用する
-  - uuid などで、ユニークな値を生成する
-- key のルール
-  - 異なる配列の JSX 内では同じ key を使用してもよい
-  - key を再レンダリングなどで新たに作成してはいけない
-
-### なぜ React は key が必要なのか
+### なぜ key が必要なのか
 
 - ファイル一覧に名前がなかったらどのように参照するでしょうか？
   - 1 つ目のファイル、2 つ目のファイルのように順番で参照します。
@@ -51,10 +55,30 @@
   - データの ID などを使うようにしてください。
 - コンポーネントはキーを props として受け取らないようにしてください。
 
+- どこから一意の Key を取得するのか
+  - DB から ID などのユニークな値を利用する
+  - uuid などで、ユニークな値を生成する
+- key のルール
+  - 異なる配列の JSX 内では同じ key を使用してもよい
+  - key を再レンダリングなどで新たに作成してはいけない
+
+### Tip
+
+- 明示的な Fragment コンポーネントは list の内容が複数の node の場合にのみ使用する。他に使用する用途はない。[参考](https://ja.react.dev/reference/react/Fragment#how-to-write-a-fragment-without-the-special-syntax)
+- map メソッドのコールバック関数で return を省略して書くことができる。
+
+```javascript
+const listItems = chemists.map((person) => <li>...</li>) // Implicit return!
+
+// Curly brace
+const listItems = chemists.map((person) => {
+  return <li>...</li>
+})
+```
+
+高次関数: コールバック関数を受け取る関数
+コールバック関数: ある関数を呼び出す際に引数として渡される関数のこと
+
 ## References
 
-[Rendering Lists](https://react.dev/learn/rendering-lists#keeping-list-items-in-order-with-key)
-
-```
-
-```
+[Rendering Lists](https://react.dev/learn/rendering-lists)
