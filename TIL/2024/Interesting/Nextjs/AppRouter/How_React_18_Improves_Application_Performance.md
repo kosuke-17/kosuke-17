@@ -106,6 +106,52 @@ React のアップデートがこれらの計測に合わせてどう最適化�
   - インタラクティブコンポーネントの最端ノードのみが「use client」ディレクティブを定義するようにします。これには、コンポーネントの分離が必要になる場合があります。
   - コンポーネント ツリーを直接インポートするのではなく、小道具として渡します。これにより、React はクライアント バンドルに追加せずに、子を React サーバー コンポーネントとしてレンダリングできるようになります。
 
+## Suspense
+
+<!-- TODO: Suspenseの内容 -->
+
+## Data Fetching
+
+- データをフェッチし、結果を効率的にメモ化をするための新しい API も存在する
+- React18 には、ラップされた関数呼び出しの結果を記憶するキャッシュ関数が追加されました
+  - 同じレンダーパス内で、同じ引数を使用して同じ関数を呼び出すと、関数を再実行することなくメモ化された値が使用されます
+
+```javascript
+import { cache } from 'react'
+
+export const getUser = cache(async (id) => {
+  const user = await db.user.findUnique({ id })
+  return user
+})
+
+getUser(1)
+getUser(1) // Called within same render pass: returns memoized result.
+```
+
+- フェッチ呼び出しでは、React18 にはキャッシュを使用せずに同様のメカニズムがデフォルトで含まれるようになりました
+
+  - これにより、単一のレンダーパス内のネットワークリクエストの数が減り、アプリケーションのパフォーマンスが向上し、API コストが削減されます
+
+- これらの機能は、Context API にアクセスできないため、React Server コンポーネントで役に立ちます
+
+- キャッシュとフェッチの両方の自動キャッシュ動作によりグローバルモジュールから単一の関数をエクスポートして、アプリケーション全体でそれを再利用できます
+
+```javascript
+async function fetchBlogPost(id) {
+  const res = await fetch(`/api/posts/${id}`)
+  return res.json()
+}
+
+async function BlogPostLayout() {
+  const post = await fetchBlogPost('123')
+  return '...'
+}
+async function BlogPostContent() {
+  const post = await fetchBlogPost('123') // Returns memoized value
+  return '...'
+}
+```
+
 ## References
 
 [How React 18 Improves Application Performance](https://vercel.com/blog/how-react-18-improves-application-performance)
