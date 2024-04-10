@@ -210,3 +210,141 @@ test('likeButton', () => {
 - Weight and load times
 - Redundancy with modern browsers
 - Performance considerations
+
+## Enter React
+
+<!-- Reactが存在するに至る文脈が書かれている -->
+
+### React's Value Proposition
+
+- JavaScript は Web アプリがスケールすると安全ではなく、予測不可能で、非効率的な状態に陥ることが(jQuery などで)わかっていたため、それを成功に導く解決策が必要だった
+
+1. Declarative versers imperative code (宣言的と命令的)
+
+- React は DOM 上で宣言的な抽象化を提供する
+  - つまり、React は見たいものを表現するコードを書く方法を提供しており、それがどのように起こるのかを管理し、UI が作成されて安全に、予測可能かつ効率的な方法で動作するのかを保証している
+  - コンポーネントの役割は UI がどのような見た目なのかの記述を返すだけ
+    - 仮想 DOM を使用することで実現する
+      - 仮想 DOM とは、意図した UI 構造を軽量に記述したもの
+    - React は仮想 DOM の更新前と更新後を比較して、実際の DOM を仮想 DOM と一致させるために小さな高パフォーマンスの高い更新に変える
+
+2. The virtual DOM
+
+- virtual DOM は実際の DOM を表現するためのプログラミングコンセプトである
+- ここで大事なのは、仮想 DOM は直接的に実際の DOM を操作せずに UI の更新を行うことを理解しておくことである
+- React は仮想 DOM を使ってコンポーネントの変更を検知し、必要な時だけコンポーネントを再レンダリングする
+  - このアプローチは変更があるたびに DOM ツリー全体を更新するよりも高速で効率的
+- React では、仮想 DOM は実際の DOM ツリーを軽量に表現したもの
+  - これは UI 要素の構造とプロパティを記述するプレーンな JavaScript オブジェクトである
+  - 実際の DOM ツリーと一致するように仮想 DOM を作成、更新し、仮想 DOM に加えられた変更は reconciliation(差分検知処理)と呼ばれるプロセスを使い実際の DOM に適用される
+
+```js
+// いいねボタンといいねの数を表示するコンポーネント
+import React, { useState } from "react";
+
+function LikeButton() {
+  const [likes, setLikes] = useState(0);
+
+  function handleLike() {
+    setLikes(likes   1);
+  }
+
+  return (
+    <div>
+      <button onClick={handleLike}>Like</button>
+      <p>{likes} Likes</p>
+    </div>
+  );
+}
+
+export default LikeButton;
+```
+
+```js
+// 最初のレンダリングで作成されるいいねボタンの仮想DOMのtree
+{
+  $$typeof: Symbol.for('react.element'),
+  type: 'div',
+  props: {},
+  children: [
+    {
+      $$typeof: Symbol.for('react.element'),
+      type: 'button',
+      props: { onClick: handleLike },
+      children: ['Like']
+    },
+    {
+      $$typeof: Symbol.for('react.element'),
+      type: 'p',
+      props: {},
+      children: [0, ' Likes']
+    }
+  ]
+}
+```
+
+```js
+// いいねをした時に作成される仮想DOMのtree
+{
+  type: 'div',
+  props: {},
+  children: [
+    {
+      type: 'button',
+      props: { onClick: handleLike },
+      children: ['Like']
+    },
+    {
+      type: 'p',
+      props: {},
+      children: [1, ' Likes'] // ここの0が1に変化している
+    }
+  ]
+}
+```
+
+- 差分検知処理によって新たな tree と古い tree の違いを理解する
+
+  - 更新される必要がある実際の DOM はどこにあたるのかを決定する
+
+- React は新しい vDOM の状態を DOM と整合させるために実際の DOM で行う最小限の効率的な更新セット(処理方法?)を計算し、最終的に仮想 DOM に加えられた変更を反映させるために実際の DOM を更新する
+
+- React は実際の DOM 操作を必要な箇所のみ更新することで、DOM 操作の回数を最小限に抑えている ⭐️
+
+  - このアプローチは全体の DOM を変更があるたびに更新するアプローチよりもはるかに高速で効率的である
+
+- 仮想 DOM は現代の Web にとって強力で影響力のある発明であり、Preact や Inferno のようなライブラリが採用している
+
+3. The component model⭐️
+
+- component model は React のキーコンセプトで"thinking in components"を高く推奨している
+  - コンポーネントとして分割しておくことで、どこでも再利用可能で分割元を直すだけで全ての使用先の修正が可能になる(DRY の原則と同じコンセプト)
+- React はコンポーネントの追跡し、メモ化、バッチ処理、他の最適化のようなパフォーマンスマジックを用意に実行できる
+  - 特定のコンポーネントを何度も識別し、時系列で特定のコンポーネントの更新を追跡することができれば
+  - これを keying という
+- 関心の分離を助けてくれて、ロジックが影響を与える UI の部分に近いロジックを配置する
+
+  - LikeButton コンポーネントがある場合、いいねのロジックをこのコンポーネントに配置して、UI は新たに Button コンポーネントを作成します。そうすることで LikeButton コンポーネントはロジックの処理を扱う役割を持ちます。これを Composition(コンポジション)という
+
+- component model は基礎的なコンセプトであり、開発に多くの利益をもたらし、モジュール性を高めて、デバックを容易にさせ、コードの再利用を効率良くする
+
+4. Immutable State
+
+- React の設計思想はアプリケーションの状態を不変の値の集合として記述するパラダイムを重視している
+
+  - 各状態の更新は個別のスナップショットとメモリ参照として扱われる
+  - 状態管理に対するイミュータブルなアプローチは React の価値提案の核となる部分であり、堅牢で効率的かつ予測的な UI を開発する上でいくつかの利点がある
+
+- 不変を強制することで、React は UI components が任意の時点で特定の状態を反映していることを保証する
+
+  - 状態が変更した時には、直接変異するのではなく、新たな状態を表す新しいオブジェクトを返す
+  - これにより変更の追跡やデバック、アプリが振る舞う動作の理解がしやすくなる
+  - 状態遷移は離散しており、お互いに干渉しないので、共有された変更可能な状態によって引き起こされる微妙なバグが発生する可能性は大幅に減少する
+
+- 開発者が機能的にデータフローについて考えることを促し、副作用を減らし、コードをたどりやすくする
+
+  - 不変なデータフローを明確にすることで、アプリがどのように動作するのかを理解するためのメンタルモデルが単純化される ⭐️
+
+- React の不変な状態更新へのコミットメントは多くの利点をもたらす意図的な設計上の選択である
+  - 現代の関数型プログラミングの原則に従い、効率的な UI の更新を可能にし、パフォーマンスを最適化し、バグの可能性を減らし、開発者の全体的な体験を向上させる
+  - 状態管理に対するこのアプローチは多くの React の先進的な機能を多く支えており、React が進化するにつれて今後も礎であり続けるだろう
