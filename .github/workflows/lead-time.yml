@@ -1,0 +1,44 @@
+name: Lead Time Calculation
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  lead-time:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set start time
+        id: start-time
+        run: echo "::set-output name=start_time::$(date +%s)"
+
+      - name: Set end time
+        id: end-time
+        run: echo "::set-output name=end_time::$(date +%s)"
+
+      - name: Calculate lead time
+        id: lead-time
+        run: |
+          start_time=$(echo "${{ steps.start-time.outputs.start_time }}")
+          end_time=$(echo "${{ steps.end-time.outputs.end_time }}")
+          lead_time=$((end_time - start_time))
+          echo "::set-output name=lead_time::${lead_time}"
+
+      - name: Display lead time
+        run: echo "Lead time for changes: ${{ steps.lead-time.outputs.lead_time }} seconds"
+
+      - name: Update README with lead time
+        run: echo "Lead time for changes: ${{ steps.lead-time.outputs.lead_time }} seconds" > lead-time.txt
+
+      - name: Commit changes to README
+        run: |
+          git config --global user.email "actions@github.com"
+          git config --global user.name "GitHub Actions"
+          git add lead-time.txt
+          git commit -m "Update README with lead time"
+          git push
