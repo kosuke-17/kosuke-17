@@ -13,13 +13,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      # - name: Set start time
-      #   id: start-time
-      #   run: echo "::set-output name=start_time::$(date +%s)"
+      - name: Set start time
+        id: start-time
+        run: echo "::set-output name=start_time::$(date +%s)"
 
-      # - name: Set end time
-      #   id: end-time
-      #   run: echo "::set-output name=end_time::$(date +%s)"
+      - name: Set end time
+        id: end-time
+        run: echo "::set-output name=end_time::$(date +%s)"
 
       - name: Calculate lead time
         id: lead-time
@@ -29,11 +29,11 @@ jobs:
           lead_time=$((end_time - start_time))
           echo "::set-output name=lead_time::${lead_time}"
 
-      - name: Display lead time
-        run: echo "Lead time for changes: ${{ steps.lead-time.outputs.lead_time }} seconds"
+      # - name: Display lead time
+      #   run: echo "Lead time for changes: ${{ steps.lead-time.outputs.lead_time }} seconds"
 
-      - name: Update README with lead time
-        run: echo "Lead time for changes: ${{ steps.lead-time.outputs.lead_time }} seconds" > lead-time.txt
+      # - name: Update README with lead time
+      #   run: echo "Lead time for changes: ${{ steps.lead-time.outputs.lead_time }} seconds" > lead-time.txt
 
       - name: Commit changes to README
         run: |
