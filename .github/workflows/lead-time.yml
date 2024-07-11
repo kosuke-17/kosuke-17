@@ -13,13 +13,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Set start time
-        id: start-time
-        run: echo "::set-output name=start_time::$(date +%s)"
+      # - name: Set start time
+      #   id: start-time
+      #   run: echo "::set-output name=start_time::$(date +%s)"
 
-      - name: Set end time
-        id: end-time
-        run: echo "::set-output name=end_time::$(date +%s)"
+      # - name: Set end time
+      #   id: end-time
+      #   run: echo "::set-output name=end_time::$(date +%s)"
 
       - name: Calculate lead time
         id: lead-time
