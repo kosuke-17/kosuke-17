@@ -1,46 +1,46 @@
-name: Lead Time Calculation
+# name: Lead Time Calculation
 
-on:
-  push:
-    branches:
-      - main
+# on:
+#   push:
+#     branches:
+#       - main
 
-jobs:
-  lead-time:
-    runs-on: ubuntu-latest
+# jobs:
+#   lead-time:
+#     runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+#     steps:
+#       - name: Checkout repository
+#         uses: actions/checkout@v2
 
-      - name: Set start time
-        id: start-time
-        run: echo "::set-env name=START_TIME::$(date +%s)"
+#       - name: Set start time
+#         id: start-time
+#         run: echo "::set-env name=START_TIME::$(date +%s)"
 
-      # ここにビルドやテストのステップを追加する場合があります
+#       # ここにビルドやテストのステップを追加する場合があります
 
-      - name: Set end time
-        id: end-time
-        run: echo "::set-env name=END_TIME::$(date +%s)"
+#       - name: Set end time
+#         id: end-time
+#         run: echo "::set-env name=END_TIME::$(date +%s)"
 
-      - name: Calculate lead time
-        id: lead-time
-        run: |
-          start_time=$START_TIME
-          end_time=$END_TIME
-          lead_time=$((end_time - start_time))
-          echo "Lead time for changes: $lead_time seconds"
-          echo "LEAD_TIME=$lead_time" >> $GITHUB_ENV  # Environment Fileにリードタイムを追加
+#       - name: Calculate lead time
+#         id: lead-time
+#         run: |
+#           start_time=$START_TIME
+#           end_time=$END_TIME
+#           lead_time=$((end_time - start_time))
+#           echo "Lead time for changes: $lead_time seconds"
+#           echo "LEAD_TIME=$lead_time" >> $GITHUB_ENV  # Environment Fileにリードタイムを追加
 
-      - name: Update README with lead time
-        run: echo "Lead time for changes: ${{ env.LEAD_TIME }} seconds" > lead-time.txt
+#       - name: Update README with lead time
+#         run: echo "Lead time for changes: ${{ env.LEAD_TIME }} seconds" > lead-time.txt
 
-      - name: Commit changes to README
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          git config --global user.email "${{ secrets.GITHUB_ACTOR }}@users.noreply.github.com"
-          git config --global user.name "${{ secrets.GITHUB_ACTOR }}"
-          git add lead-time.txt
-          git commit -m "Update README with lead time"
-          git push
+#       - name: Commit changes to README
+#         env:
+#           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#         run: |
+#           git config --global user.email "${{ secrets.GITHUB_ACTOR }}@users.noreply.github.com"
+#           git config --global user.name "${{ secrets.GITHUB_ACTOR }}"
+#           git add lead-time.txt
+#           git commit -m "Update README with lead time"
+#           git push
