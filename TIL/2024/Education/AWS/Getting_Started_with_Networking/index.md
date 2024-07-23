@@ -70,4 +70,39 @@
     - 広い範囲(複数の町や国)
 
 - IP address
+
   - node がネットワークにいおて、自信を識別をするための値
+  - IPv4 addresses
+    - 32 bit の長さ
+  - IPv6 addresses
+    - 128 bit の長さ
+
+- CIDR(Classless Inter-Domain Routing)
+
+  - https://aws.amazon.com/jp/what-is/cidr/
+  - IP アドレスの割り当て方法
+  - インターネット上のデータルーティングを向上させる目的
+  - netrowk identifier と host identifierCIDR block を分けたときに/XX が netmask となる
+
+- Subunet
+
+  - subnetA の CIDR ブロックが 10.0.0.0/26 だったら SubnetB は 10.0.0.64/26 出ないといけない
+
+- CIDR bolock review
+
+  - 最初と最後の IP が供給される。ネットワークプロバイダーが独立していると、他が供給される
+  - CIDR は変えることができない
+    - CIDR block の範囲は現在や将来必要になる IP のために十分な IP アドレスを収容することができる
+  - Subnet CIDR block は他と重なり合うことができない
+    - 例えば
+      - 10.0.0.0/26 CIDR block(64 IP addresses が含まれている)は同じ VPC 内の次のサブネットには 10.0.0.64/26 CIDR block を指定する必要がある
+  - netmask の値が小さいほど保有できる IP アドレスが増える
+    - a/24 の netmask は 256 個の IP アドレス、A/16 の netmask は 65536 個の IP アドレス
+
+- Subnet types
+  - Public subnets
+    - web サイトを表示させる場合など
+  - Private subnets
+    - public subnets からのルーティング
+    - 外部との接続を制限したい場合
+    - Nat device を有して private subnet から public subnet にアクセス
