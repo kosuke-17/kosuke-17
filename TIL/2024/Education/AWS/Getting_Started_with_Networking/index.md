@@ -100,9 +100,31 @@
     - a/24 の netmask は 256 個の IP アドレス、A/16 の netmask は 65536 個の IP アドレス
 
 - Subnet types
+
   - Public subnets
     - web サイトを表示させる場合など
   - Private subnets
     - public subnets からのルーティング
     - 外部との接続を制限したい場合
     - Nat device を有して private subnet から public subnet にアクセス
+
+- Introduction to Amazon VPC
+
+  - Amazon VPC architecture
+    - 複数の AZ にそれぞれ subnet をおく
+    - デフォルトで存在する VPC は削除せずに、新たに VPC を作成していくのが推奨
+
+- Amazon VPC quotas(割り当て)
+
+  - 同じリージョンや異なるリージョンに複数の VPC を置くことができる
+
+- VPC usecase
+  - 複数層の web app
+    - Presentation tier
+      - ユーザーが website から web アプリにアクセスする層
+    - Logic tier
+      - アプリケーションのコードが含まれており、そこで処理が行われて presentation への応答を行う
+    - Data tier
+      - DB を保存していて、presentation はアクセスができない
+      - Logic tire からの通信を受け取る
+        - プライベートサブネットの中にあるため、インターネットからのアクセスができない
