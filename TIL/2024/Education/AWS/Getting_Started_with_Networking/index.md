@@ -119,6 +119,7 @@
   - 同じリージョンや異なるリージョンに複数の VPC を置くことができる
 
 - VPC usecase
+
   - 複数層の web app
     - Presentation tier
       - ユーザーが website から web アプリにアクセスする層
@@ -128,3 +129,43 @@
       - DB を保存していて、presentation はアクセスができない
       - Logic tire からの通信を受け取る
         - プライベートサブネットの中にあるため、インターネットからのアクセスができない
+
+- Amazon VPC multi-tier application example
+
+  - VPC
+    - Public subnet
+      - EC2 instance
+        - Presentation tier
+        - Web server
+    - Private subnet
+      - EC2 instance
+        - Application server
+        - Logic tier
+    - Pricate subnet
+      - RDS instance
+        - Database server
+        - Data tier
+
+- VPC architectural patterns
+
+  - Single VPC pattern
+    - 小さくて 1 つのアプリケーションを自身や小さなチームで管理する場合に使う
+    - ハイパフォーマンスなコンピューティングを求められるとき
+    - identity マネジメントをするとき
+  - Multi-VPC pattern
+    - 1 つのチームや 1 組織でサービスを管理するとき
+    - 限られたチームが基本的な維持やアクセスマネジメントをするとき
+    -
+  - Multi-account VPC pattern
+    - 大きな組織や複数の IT チームを抱えている組織
+    - 急速な成長が予想される中規模の組織
+
+- Amazon VPC components
+
+  - Network gateway
+  - Route table
+  - Network access control list
+  - Security group
+
+- CIDR blocks
+  - AWSmaximum block size は最大で/16 netmask(65536 IP addresses)から/28 netmask(16 IP addresses)
