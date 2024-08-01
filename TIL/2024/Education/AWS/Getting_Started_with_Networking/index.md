@@ -168,4 +168,25 @@
   - Security group
 
 - CIDR blocks
+
   - AWSmaximum block size は最大で/16 netmask(65536 IP addresses)から/28 netmask(16 IP addresses)
+
+- Amazon VPC default components
+
+  - Main route table
+  - Network access control list
+  - Security group
+
+- VPC ID and tags
+  - VPC ID
+    - VPC を作成したときに自動で付与される ID
+    - ランダムな数字の文字列で VPC を識別する
+    - 追加したコンポーネントと関連づけるときに必要となる
+      - subnets, route table など
+    - VPC ID は編集できない
+- VPC tags
+  - VPC ID はコンポーネントと関連付けるときに覚えておくのが難しいので、固有の名前(tag)を付与することで、容易に紐付けできるようにする
+  - 例
+    - vpc-xxxxxx(Devlop VPC)
+    - vpc-yyyyyy(Production VPC)
+    - vpc-zzzzzz(Testing VPC)
