@@ -185,8 +185,37 @@
       - subnets, route table など
     - VPC ID は編集できない
 - VPC tags
+
   - VPC ID はコンポーネントと関連付けるときに覚えておくのが難しいので、固有の名前(tag)を付与することで、容易に紐付けできるようにする
   - 例
     - vpc-xxxxxx(Devlop VPC)
     - vpc-yyyyyy(Production VPC)
     - vpc-zzzzzz(Testing VPC)
+
+- Subnets in AWS
+
+  - Internet から Public な subnet は接続できて、private な subnet は接続できない
+  - このようにしてセキュリティーコントロールを行う
+  - 上記の subnets を持つ構成を複数の AZ で構築しておくことで、特定の AZ 内の subnet に接続できなくなっても、他の AZ に接続しにいくことでユーザーが接続できないような事態を一時的に防げる
+  - 5 つの IP アドレスの区分けをおこなっている
+    - First IP
+      - Network address
+    - Second IP
+      - VPC local router(internal communication)
+    - Third IP
+      - Domain Name System(DNS) resolution
+    - Fourth IP
+      - Future use
+    - Last IP
+      - Network broadcast address
+
+- Subnet size
+
+  - ベストプラクティス
+    - 大きなサブネットを作る
+    - 小さなサブネットを作ることはおすすめしない
+    - ネットワーク上ですべての node が IP アドレスを必要とするため
+    - 64 IP addresses をそれぞれ 6 つの subnet で利用可能にするよりも 256 IP addresses を 2 つの subnet で利用可能にする方が良い
+
+- Subnet and VPC assosiations
+  - subnet を作るときには VPC と関連付けることが必須
