@@ -219,3 +219,28 @@
 
 - Subnet and VPC assosiations
   - subnet を作るときには VPC と関連付けることが必須
+  - VPC の中にある Subnet はデタッチができない
+- Network gateway
+
+  - Internet gateway
+
+    - VPC とインターネットが接続可能な状態にする
+    - name と tag の指定が必要
+    - VPC ID に internet gateway を付与して使う
+    - one to one の関係性を持つ
+    - そのため、複数の VPC やそれぞれの VPC が特定の internet gateway を持つことはできない
+    - 特定の VPC に internet gateway を付与している場合は、一度デタッチしてから他の VPC にリタッチする必要がある
+    - memo(別の環境を作って最後にこの gateway を変えることで別のリソースに移行することができるということ？)
+
+  - Virtual private gateway
+    - On-premises のサイトを VPC に接続をする場合に使用する
+    - この接続方法を site to site VPN Connection をいう
+
+- Route tables
+
+  - Destination
+    - トラフィックを送信する IP addresses の範囲
+  - Target - 宛先トラフィックの送信に使用する
+    gateway, network interface, connection
+
+- Route table associations
