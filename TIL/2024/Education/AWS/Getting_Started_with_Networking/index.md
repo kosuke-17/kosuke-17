@@ -244,3 +244,35 @@
     gateway, network interface, connection
 
 - Route table associations
+  - main の route table を使ったり、カスタマイズした route table を使う
+  - 1 つの subnet に対してそれぞれの route table を指定することもできるし、2 つ以上の subnet に対して 1 つの route table を使用することができる
+- Security groups
+  - vpc 内では 2 つの security group が存在する
+    - Instance level
+    - Subnet level
+  - インバウンドルールとアウトバウンドルールを用いてトラフィックをフィルタする方法を提供する
+- Security group rules
+
+  - inbound rules
+    - デフォルトで security group はインバウンドルールを持たない
+    - そのため、inbound rules を追加するまでインスタンスに他のホストからの接続を受け付けない
+  - outbound rules
+
+    - security group は全ての outbund traffic を許可する outbound rules を持つ
+    - そのため、必要な outbound traffic のみを許可する outbound rule をつかする必要がある
+    - もし、outbound rule が 1 つも存在しなければ、許可されたインスタンスから発生する outbound traffic は存在しない
+    - アウトバウンド ルールの destination によって、インスタンスから送信できるトラフィックとそのトラフィックの送信先が決まる
+
+  - ポイントはどの状態のルールが働いていることで outbound や inbound のリクエストを発せさせることができるかを
+    リクエストを発せさせることができるかを決定する
+
+- Choosing security groups
+
+  - Public Subnet にある EC2(Web server)や Private Subnet にある EC2(Application server)、Database server など、目的に応じた security group を設定する必要がある
+
+- Network ACLs
+  - 他の fire wall で VPC を守るために利用する
+  - Subnet level で動く
+  - 1 つの Network ACL は 1 つの Subnet に紐づけることができる
+  - 特定の IP アドレスを deny できる
+  - Rule の順番と deny のルールによっては全て deny してしまう可能性がある
