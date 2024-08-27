@@ -259,7 +259,7 @@
   - outbound rules
 
     - security group は全ての outbund traffic を許可する outbound rules を持つ
-    - そのため、必要な outbound traffic のみを許可する outbound rule をつかする必要がある
+    - そのため、必要な outbound traffic のみを許可する outbound rule を追加する必要がある
     - もし、outbound rule が 1 つも存在しなければ、許可されたインスタンスから発生する outbound traffic は存在しない
     - アウトバウンド ルールの destination によって、インスタンスから送信できるトラフィックとそのトラフィックの送信先が決まる
 
