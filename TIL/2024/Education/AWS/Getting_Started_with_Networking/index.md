@@ -271,8 +271,50 @@
   - Public Subnet にある EC2(Web server)や Private Subnet にある EC2(Application server)、Database server など、目的に応じた security group を設定する必要がある
 
 - Network ACLs
+
   - 他の fire wall で VPC を守るために利用する
   - Subnet level で動く
   - 1 つの Network ACL は 1 つの Subnet に紐づけることができる
   - 特定の IP アドレスを deny できる
   - Rule の順番と deny のルールによっては全て deny してしまう可能性がある
+
+- Elastic IP
+
+  - 固定の IP
+  - インスタンスは停止して再起動すると public IP は再設定されてしまうが、Elastic IP を付与しておくことで再設定されることがなくなる
+  - VPC を跨いだ Elastic IP の利用を行うことができる
+    - リージョンレベルで可能
+
+- NAT gateway
+
+  - Private Subnet とインターネットを繋ぐ役割を持つ
+  - Private Route Table に NAT gateway と Public Subnet をつなげる
+
+- VPN
+
+  - VPN を繋げないと VPC とリモートのネットワークと通信が取れない
+  - Customer gateway を設置
+  - Virtual Private gateway を設置
+  - Private Route Table を設置
+  - destination に特定の IP(リモートのネットワーク)を指定
+  - site to stie VPN connection を用いて、Customer gateway と Virtual Private gateway を繋げる
+  - AWS Direct Connect が VPN の代わりになりそう
+
+- VPC Endpoint
+
+  - Interface VPC Endpoint
+    - VPC 間や AWS サービス、private な空間のネットワークを内部で接続する
+  - Gateway Endpoint
+    - VPC で Internet gateway や Nat device が要求されない DynamoDB や S3 と信頼性の高い接続を行うときに使用する
+
+- VPC peering
+
+  - 自身の VPC 間、他のアカウントの VPC、異なる region の VPC への接続
+    - Route table でそれぞれ target と destination を設定しておく
+
+- そのほかの AWS Networking service
+  - Amazon Route 53
+    - DNS のサービス
+  - Cloud Front
+    - エッジロケーションと呼ばれるデータセンターのネットワークを通して、コンテンツの配信を行なっている
+    - 低レイテンシーなユーザーにも高速でコンテンツを届けられるようになっている
