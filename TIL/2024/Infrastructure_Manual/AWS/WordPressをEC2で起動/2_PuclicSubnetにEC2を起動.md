@@ -3,7 +3,7 @@
 ## EC2 の作成及び起動
 
 - 名前とタグ
-  - wordpress-on-ec2-hands-on-ec2
+  - wordpress-prod-ec2
 - アプリケーションおよび OS イメージ (Amazon マシンイメージ)
 
   - Amazon Linux
@@ -16,17 +16,17 @@
   - t2.micro(無料枠)
 - キーペア (ログイン)
 
-  - キーペアを作成
+  - キーペアを作成(pem ファイルをダウンロード)
 
 - ネットワーク設定
   - ネットワークを指定
-    - wordpress-on-ec2-hands-on-vpc
+    - wordpress-prod-vpc
   - サブネットを指定
-    - wordpress-on-ec2-hands-on-public-subnet
+    - wordpress-prod-public-subnet
   - パブリック IP の自動割り当て
     - 「有効化」する
   - ファイアウォール (セキュリティグループ)
-    - wordpress-on-ec2-hands-on-sg
+    - wordpress-prod-sg
 - ストレージを設定
   - 一旦デフォルトを使用
 - EC2 を起動
@@ -48,11 +48,48 @@
 sudo adduser tamura-ko
 ```
 
-### ユーザーに sudo 権限を与える
+### 補足ユーザーにパスワードをつける
 
 ```bash
-sudo usermod -G wheel tamura-ko
+# rootユーザーに切り替え
+sudo su -
+# rootユーザーのみ実行可能
+passwd tamura-ko
+→ パスワードを入力
+
+# シンプルなパスワードだと怒られる
+# BAD PASSWORD: The password fails the dictionary check - it does not contain enough DIFFERENT characters
+
 ```
+
+- https://atmarkit.itmedia.co.jp/flinux/rensai/linuxtips/033cngpaswd.html
+
+### ユーザーに sudo 権限を与える
+
+- wheel のグループに入れることで sudo 権限を与えたことになる
+
+```bash
+# aオプションを併用しないとそれまで所属していたサブグループから外れてしまう
+sudo usermod -aG wheel tamura-ko
+# idコマンドでwheelグループへの所属を確認
+sudo su - tamura-ko
+id
+```
+
+- https://linuc.org/study/column/4077/
+
+### パスワード無しで sudo コマンドを実行できるようにする
+
+```bash
+# rootに移動
+sudo su -
+visudo
+# 以下の部分をコメントアウトはずす
+# ## Same thing without a password
+# %wheel	ALL=(ALL)	NOPASSWD: ALL
+```
+
+- https://linuc.org/study/column/4047/
 
 ### ユーザーに切り替え
 
@@ -92,52 +129,41 @@ ls -la
 
 - ec2-user の authorized_keys の中身を tamura-ko のユーザーの.ssh/authorized_keys の中身に複製
 
-<!-- ここはメモ程度の記述 -->
-<!-- ```zsh
-pbcopy < ~/.ssh/id_rsa.pub
-# または
-cat ~/.ssh/id_rsa.pub | pbcopy
-```
-
 ```bash
-cp コピー元 コピー先のディレクトリ名
-``` -->
+cat ~/.ssh/authorized_keys
+# catした中身をコピー
+```
 
 ### authorized_keys にコピーした公開鍵を割り当てる
 
 ```bash
 vim authorized_keys
-<!-- ここでauthorized_keysファイルに公開鍵をペースト -->
-source authorized_keys
+# ここでauthorized_keysファイルに公開鍵をペースト
 ```
 
 ### 新たなユーザーで ssh してみる
 
-<!-- TODO -->
-
 `ssh -i <作成したpemファイル> tamura-ko@<パブリクIP>`
-
-<!-- ここはまだできないので調べる -->
 
 ## ec2-user は ssh できなくさせる
 
-<!-- TODO -->
+ファイル名を変えて ssh できなくさせる
+
+```bash
+mv authorized_keys authorized_keys.unused
+```
+
+- https://graff-it-i.com/2021/11/21/del-ec2-user/
 
 ## 静的ホスト名の割り当て
 
 - - [Ubuntu Linux を実行している Amazon EC2 インスタンスに静的ホスト名を割り当てるにはどうすればよいですか?](https://repost.aws/ja/knowledge-center/linux-static-hostname)
-  - ユーザーに権限をきちんと与える
-  - wordpress-on-ec2-hands-on-ec2-localhost
 
 ```
 1  sudo hostnamectl
 2  hostname
 3  sudo vim /etc/hosts
-4  sudo hostnamectl set-hostname wordpress-on-ec2-hands-on-ec2-localhost
+4  sudo hostnamectl set-hostname wordpress-prod
 5  hostname
 6  exit
 ```
-
-参考
-root で作業するやり方
-https://graff-it-i.com/2021/11/21/del-ec2-user/
