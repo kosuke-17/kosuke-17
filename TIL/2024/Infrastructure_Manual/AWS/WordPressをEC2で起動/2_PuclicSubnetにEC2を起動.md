@@ -190,3 +190,14 @@ mv authorized_keys authorized_keys.unused
 # ログアウトして再度ログインするとhost
 5  exit
 ```
+
+## 補足: EC2 のパブリック IPv4 DNS を作成
+
+- DNS サーバーの構築
+
+  - VPC の設定画面から、「アクション」>「DNS ホスト名を編集する」を選択
+  - 「DNS ホスト名」で有効化にチェック入れて保存すると、VPC 内に起動したインスタンスに DNS 名が名が割り当てられる
+  - EC2 インスタンスの詳細画面の「パブリック IPv4 DNS」で DNS 名が確認できる
+  - DNS 名で、web ブラウザにアクセルするとパブリック IP アドレスと同様に Apache(及び wordpress)にアクセスできる
+
+  - 参考: https://zenn.dev/oreo2990/articles/5315112aa9d38e
