@@ -65,6 +65,19 @@ exit
 sudo adduser tamura-ko
 ```
 
+### 2.3.2 パスワード無しで sudo コマンドを実行できるようにする
+
+```bash
+# rootに移動
+sudo su -
+visudo
+# 以下の部分をコメントアウトはずす
+# ## Same thing without a password
+# %wheel	ALL=(ALL)	NOPASSWD: ALL
+```
+
+- https://linuc.org/study/column/4047/
+
 ### (任意)ユーザーにパスワードをつける
 
 - TODO: ここは必要かを調べる
@@ -83,7 +96,7 @@ passwd tamura-ko
 
 - https://atmarkit.itmedia.co.jp/flinux/rensai/linuxtips/033cngpaswd.html
 
-### 2.3.2 ユーザーに sudo 権限を与える
+### 2.3.3 ユーザーに sudo 権限を与える
 
 - wheel のグループに入れることで sudo 権限を与えたことになる
 
@@ -93,24 +106,12 @@ sudo usermod -aG wheel tamura-ko
 # idコマンドでwheelグループへの所属を確認
 sudo su - tamura-ko
 id
+# groups=1001(tamura-ko),10(wheel)と表示されていたら完了
 ```
 
 - https://linuc.org/study/column/4077/
 
-### 2.3.3 パスワード無しで sudo コマンドを実行できるようにする
-
-```bash
-# rootに移動
-sudo su -
-visudo
-# 以下の部分をコメントアウトはずす
-# ## Same thing without a password
-# %wheel	ALL=(ALL)	NOPASSWD: ALL
-```
-
-- https://linuc.org/study/column/4047/
-
-### 2.3.4 ユーザーに切り替え
+### 2.3.4 tamurako のユーザーに切り替え
 
 ```bash
 sudo su - tamura-ko
@@ -147,6 +148,7 @@ ls -la
 ### 2.4.3 公開鍵をコピー
 
 - ec2-user の authorized_keys の中身を tamura-ko のユーザーの.ssh/authorized_keys の中身に複製
+  - ec2-user にユーザーを切り替える
 
 ```bash
 cat ~/.ssh/authorized_keys
@@ -154,6 +156,8 @@ cat ~/.ssh/authorized_keys
 ```
 
 ### 2.4.4 authorized_keys にコピーした公開鍵を割り当てる
+
+- tamura-ko にユーザーを切り替える
 
 ```bash
 vim authorized_keys
@@ -183,13 +187,14 @@ mv authorized_keys authorized_keys.unused
 
 ```bash
 1  hostnamectl
-2  sudo vim /etc/hosts
-3  sudo hostnamectl set-hostname wordpress-prod
-4  hostnamectl
+2  sudo hostnamectl set-hostname wordpress-prod
+3  hostnamectl
 # 「Static hostname: wordpress-prod」となっていれば完了
 # ログアウトして再度ログインするとhost
-5  exit
+4  exit
 ```
+
+- 1 と 2 の間に sudo vim /etc/hosts で Static hostname を記述する必要がありそう?
 
 ## 補足: EC2 のパブリック IPv4 DNS を作成
 
