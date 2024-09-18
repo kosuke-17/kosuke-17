@@ -26,9 +26,9 @@
 4. セキュリティグループ作成
 
 - セキュリティグループ名
-  - wordpress-prod-sg
+  - wordpress-prod-ec2-sg
 - 説明
-  - sg for wordpress-prod
+  - sg for wordpress-ec2-prod
 - VPC
   - wordpress-prod-vpc
 - インバウンドルール
@@ -40,7 +40,10 @@
     - 22
   - ソース
     - 0.0.0.0/0
+    - 「0.0.0.0/0」で公開しない方が良い為、IP 制限をかける
+    - TODO:後で調べる
 - アウトバウンドルール
+
   - タイプ
     - すべてのトラフィック
   - プロトコル
@@ -48,7 +51,15 @@
   - ポート範囲
     - すべて
   - ソース
+
     - 0.0.0.0/0
+
+  - セキュリティグループのリソース名について
+    - 「{product}-{env}-{aws_service}-sg」のように aws のサービスも命名規則に含まれているのが好ましい
+    - aws のサービスによって命名を変えていくのが良い
+    - リソース名から何を知りたいのかを考えて命名する
+    - https://future-architect.github.io/coding-standards/documents/forAWSResource/AWS%E3%82%A4%E3%83%B3%E3%83%95%E3%83%A9%E3%83%AA%E3%82%BD%E3%83%BC%E3%82%B9%E5%91%BD%E5%90%8D%E8%A6%8F%E7%B4%84.html
+    - https://dev.classmethod.jp/articles/aws-name-rule/
 
 5. インターネットゲートウェイ
 

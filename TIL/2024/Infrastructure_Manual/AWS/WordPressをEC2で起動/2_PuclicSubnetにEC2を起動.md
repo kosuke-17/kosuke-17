@@ -160,6 +160,14 @@ cat ~/.ssh/authorized_keys
 - tamura-ko にユーザーを切り替える
 
 ```bash
+# 方法1: リダイレクト記号で値を挿入
+# ショートカットキーによるペーストだと改行やインデントが入ってしまうがこの方法ならその心配がない
+# このコマンドを実行してもうまくいかなかった
+cat > authorized_keys
+# こちらのコマンドならうまく行った(コピーする必要ない)
+sudo cat ./ec2-user/.ssh/authorized_keys > ./tamura-ko/.ssh/authorized_keys
+
+#方法2
 vim authorized_keys
 # ここでauthorized_keysファイルに公開鍵をペースト
 ```
@@ -178,6 +186,11 @@ mv authorized_keys authorized_keys.unused
 # 以下のように出れば完了
 # ec2-user@xxx.ap-northeast-1.compute.amazonaws.com: Permission denied (publickey,gssapi-keyex,gssapi-with-mic).
 ```
+
+- TODO: 他の方法を探す
+
+  - sshd_config の DenyUsers で対応
+  - ユーザーごと削除
 
 - https://graff-it-i.com/2021/11/21/del-ec2-user/
 
