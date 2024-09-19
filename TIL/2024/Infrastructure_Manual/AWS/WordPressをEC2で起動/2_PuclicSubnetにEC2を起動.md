@@ -187,10 +187,55 @@ mv authorized_keys authorized_keys.unused
 # ec2-user@xxx.ap-northeast-1.compute.amazonaws.com: Permission denied (publickey,gssapi-keyex,gssapi-with-mic).
 ```
 
-- TODO: 他の方法を探す
+別の方法
 
-  - sshd_config の DenyUsers で対応
-  - ユーザーごと削除
+- sshd_config に DenyUsers を追加 で対応
+  - https://www.usupi.org/sysad/102.html
+  - https://www.linuxmaster.jp/linux_skill/2021/04/amazon-linux2ec2ec2-user.html
+  - 例: ec2-user の接続を拒否する
+
+```bash
+# /etc/ssh/sshd_configで最後に以下を記述
+DenyUsers ec2-user
+
+# sshを再起動
+sudo systemctl restart sshd
+
+# exitする
+exit
+
+# ec2-userでログイン
+ssh -i "xxx.pem" ec2-user@xxxxxx
+
+# ログインできない確認
+# Permission denied (publickey,gssapi-keyex,gssapi-with-mic).
+
+```
+
+- os によってはコマンドが違う
+
+  - https://maku.blog/p/9gs3cmu/
+
+- ユーザーごと削除
+  - 必要に応じて r オプションを使用する
+  - ユーザーが作成したファイルを残したい場合は、「 -r 」を使用しない
+  - https://kazmax.zpp.jp/linux_beginner/userdel.html
+  - https://docs.aws.amazon.com/ja_jp/AWSEC2/latest/UserGuide/managing-users.html
+
+```bash
+sudo userdel ユーザー名
+
+# 削除されているため、スイッチできないことを確認
+sudo su - ec2-user
+# su: ユーザ ec2-user が存在していません
+
+
+# sshもできないことを確認
+# ec2-userでログイン
+ssh -i "xxx.pem" ec2-user@xxxxxx
+# ログインできない確認
+# Permission denied (publickey,gssapi-keyex,gssapi-with-mic).
+```
 
 - https://graff-it-i.com/2021/11/21/del-ec2-user/
 
@@ -219,3 +264,20 @@ mv authorized_keys authorized_keys.unused
   - DNS 名で、web ブラウザにアクセルするとパブリック IP アドレスと同様に Apache(及び wordpress)にアクセスできる
 
   - 参考: https://zenn.dev/oreo2990/articles/5315112aa9d38e
+
+## (任意)Session Manager を使う設定手順
+
+- EC2 インスタンスに SSM エージェントをインストールする
+  - AmazonLinux2 には SSM エージェントがプリインストールされている
+  - 下記の記事より利用中の OS へインストールの必要があるかを確認、インストール
+    - [Session Manager を通して SSH 接続のアクセス許可を有効にして制御する - AWS Systems Manager](https://docs.aws.amazon.com/ja_jp/systems-manager/latest/userguide/session-manager-getting-started-enable-ssh-connections.html)
+- EC2 インスタンス用の IAM ロールを作成する
+  - 許可するポリシー: `AmazonSSMManagedInstanceCore`
+- EC2 インスタンスに作成した IAM ロールをアタッチする
+- SSM エンドポイントへのアウトバウンドアクセス経路を用意する
+
+  - インスタンスがパブリックサブネットの場合はインターネットゲートウェイを通じてアクセスできる
+  - プライベートサブネットの場合は VPC エンドポイントを作成する必要がある
+
+- https://tracl.cloud/archives/engineerblog/aws-ec2-connect-to-session-manager
+- https://dev.classmethod.jp/articles/ec2-access-with-session-manager/#EC2%25E3%2582%25A4%25E3%2583%25B3%25E3%2582%25B9%25E3%2582%25BF%25E3%2583%25B3%25E3%2582%25B9%25E3%2581%25ABSSM%25E3%2582%25A8%25E3%2583%25BC%25E3%2582%25B8%25E3%2582%25A7%25E3%2583%25B3%25E3%2583%2588%25E3%2582%2592%25E3%2582%25A4%25E3%2583%25B3%25E3%2582%25B9%25E3%2583%2588%25E3%2583%25BC%25E3%2583%25AB

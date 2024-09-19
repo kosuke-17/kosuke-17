@@ -32,6 +32,7 @@
 - VPC
   - wordpress-prod-vpc
 - インバウンドルール
+
   - タイプ
     - SSH
   - プロトコル
@@ -39,9 +40,19 @@
   - ポート範囲
     - 22
   - ソース
+
     - 0.0.0.0/0
     - 「0.0.0.0/0」で公開しない方が良い為、IP 制限をかける
-    - TODO:後で調べる
+    - wifi がプロバイダから割り当てられた IP アドレスを指定
+
+      - 以下のサイトで接続している IP アドレスを指定する
+      - 例: XXX.XX.XX.XXX/32
+      - https://www.cman.jp/network/support/go_access.cgi
+
+      - https://qiita.com/yuyanstart/items/9614c5af4e99ac6f8173
+      - https://www.cman.jp/network/support/go_access.cgi
+      - https://www.cman.jp/network/term/ip/p3/
+
 - アウトバウンドルール
 
   - タイプ
