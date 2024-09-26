@@ -40,6 +40,7 @@
   - Event Consumer
 
 - AWS Lambda functions
+
   - サーバー管理やプロビジョニングが不要でコードを実行させる
     - プロビジョニング: 必要に応じてネットワークやコンピュータの設備などのリソースを提供できるよう予測し、準備しておくこと
   - node.js や python など様々な言語に対応してる
@@ -62,3 +63,26 @@
     - INIT phase、INVOKE phase、SHATDOWN phase がある
     - 情報の設定(メモリ使用量、最大呼び出し時間など) → 情報をもとに実行環境のセットアップを行う
   - IAM Resource Policy と IAM Execution Role がそれぞれ必要
+
+- Lambda を使う前に知っておくこと
+
+  - Linux OS とコマンドについて
+  - セキュリティサービスとコンセプト
+  - クラウドコンセプトと IP ネットワーキング
+  - 分散コンピューティングコンセプト
+
+- Lambda function を構築する方法
+
+  - another from scratch
+    - hello world 出力するように関数を実際に書いてトリガーと設定をする
+  - use a blueprint
+  - contianer image
+    - 関数をデプロイしたコンテナイメージを選択して実行する
+
+- Lambda function を実行するには実行権限が必要なため、そのためのロールを作るか既存のロールを選択する
+
+- Design best practices
+  - Separate business logic
+  - Moduler functions
+  - Treat functions as stateless
+  - Only include what you need
