@@ -82,7 +82,46 @@
 - Lambda function を実行するには実行権限が必要なため、そのためのロールを作るか既存のロールを選択する
 
 - Design best practices
+
   - Separate business logic
   - Moduler functions
   - Treat functions as stateless
   - Only include what you need
+
+- AWS serverless services
+  - SQS
+    - フルマネージドなメッセージを保存するメッセージキューイングサービス
+    - メッセージは保存された後に期限切れになるまで保管されている
+    - sender と receiver の間のバッファーとして振る舞う
+    - 2 つのタイプがある
+      - Standard
+      - FIFO
+  - SNS
+    - 特徴
+      - 公開されたメッセージ
+      - メッセージが配信されたかどうかを気にする必要がない
+      - HTTP or HTTPS retry
+      - Order and delivery not guaranteed
+    - ユースケース
+      - CloudWatch アラーム通知
+      - メールリストを通知
+      - app の更新を通知
+  - S3
+    - オブジェクトを保存するサービス
+    - 従量課金製
+    - elastic なストレージ
+      - ストレージの容量は追加したり削除したりすることで大きくなったり小さくなったりする
+    - a
+  - API Gateway
+    - Lambda function を外に接続できるようにするサービス
+    - 誰が api にアクセスしてきたのかわかる
+  - Fargate
+    - ECS のための技術
+    - サーバーやクラスターを管理する必要がなくコンテナを起動することができる
+    - インフラの管理ではなく、アプリの開発に集中ができる
+    - OS や Config, Deps をスナップショット(コンテナイメージ)のようにとっておく
+    - ユースケース
+      - コンテナワークロードを実行してスケールさせる
+      - web app や api などのマイクロサービス
+      - AI や ML トレーニングアプリのサポート
+      - コスト最適化
