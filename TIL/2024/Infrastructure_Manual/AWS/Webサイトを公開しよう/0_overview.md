@@ -7,3 +7,5 @@
 
 - 今回見た参考書: https://gihyo.jp/book/2019/978-4-297-10661-4
 - https://zenn.dev/wakkunn/articles/66a6e8372611dc
+
+<img src="publish-static-web-site.drawio.png" />
