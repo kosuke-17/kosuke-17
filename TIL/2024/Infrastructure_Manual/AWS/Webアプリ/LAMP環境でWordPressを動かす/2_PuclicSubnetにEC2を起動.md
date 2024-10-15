@@ -165,7 +165,8 @@ cat ~/.ssh/authorized_keys
 # このコマンドを実行してもうまくいかなかった
 cat > authorized_keys
 # こちらのコマンドならうまく行った(コピーする必要ない)
-sudo cat ./ec2-user/.ssh/authorized_keys > ./tamura-ko/.ssh/authorized_keys
+# tamura-koのルートディレクトリ
+sudo cat ../ec2-user/.ssh/authorized_keys > ../tamura-ko/.ssh/authorized_keys
 
 #方法2
 vim authorized_keys

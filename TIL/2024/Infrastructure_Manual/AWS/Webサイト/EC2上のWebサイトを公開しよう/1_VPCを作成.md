@@ -3,7 +3,7 @@
 1. 2 段階認証を用いてログイン
 2. VPC を作成
 
-   1. VPC 名: wordpress-prod-vpc
+   1. VPC 名: tamu-prod-vpc
    2. IPv4 CIDR: 10.0.0.0/24
    3. IPv6 CIDR ブロック: ブロックなし
    4. テナンシー: デフォルト
@@ -27,9 +27,9 @@
 - セキュリティグループ名
   - tamusite-prod-alb-sg
 - 説明
-  - sg for wordpress-alb-prod
+  - sg for tamusite-alb-prod
 - VPC
-  - wordpress-prod-vpc
+  - tamusite-prod-vpc
 - インバウンドルール
 
   - タイプ
