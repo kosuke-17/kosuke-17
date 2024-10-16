@@ -10,8 +10,15 @@
 
 3. パブリックサブネットを作成
 
-- サブネット名: tamusite-prod-public-subnet
+- ALB を作成する時に複数のパブリックサブネットが存在する必要がある
+
+- サブネット名: tamusite-prod-public-subnet-1a
 - az:アジアパシフィック東京/ap-northeast-1a
+- IPv4 VPC CIDR ブロック: 10.0.0.0/24
+- IPv4 サブネット CIDR ブロック: 10.0.0.0/28
+
+- サブネット名: tamusite-prod-public-subnet-1c
+- az:アジアパシフィック東京/ap-northeast-1c
 - IPv4 VPC CIDR ブロック: 10.0.0.0/24
 - IPv4 サブネット CIDR ブロック: 10.0.0.0/28
 
