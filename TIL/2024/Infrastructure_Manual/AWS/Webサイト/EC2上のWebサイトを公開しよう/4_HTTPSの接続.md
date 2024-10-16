@@ -38,10 +38,12 @@
 
   - Certificate Manager で CNAME タイプのレコードを作成して紐付け
   - A レコードを作成
+    - tamusite-prod-alb を指定
 
 - ALB に HTTPS 用のリスナーを作成する
-
-- Elastic IP の作成
-- Elastic IP の割り当て
-
-  - tamuste-prod-web のインスタンスを選択
+  - HTTPS の 443 を指定
+  - ターゲットグループ
+    - tamusite-prod-tg
+  - デフォルト SSL/TLS サーバー証明書
+    - ACM から
+      - 証明書を選択
