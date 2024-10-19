@@ -1,86 +1,58 @@
-# 4. HTTP/HTTPS の接続
+# 4. HTTP/HTTPS 接続
 
-- Route53 で新規でドメインを取得する
-- ドメインを既に取得していた場合
-  - ホストゾーンを新たに作成する場合はドメインのネームサーバーの値とホストゾーンのネームサーバーの値が同じであることを確認する
-    - そうしないと http ができなかったり ACM の検証が保留中のままだったりする
+## 4.1 Route53 のドメイン設定
 
-## 4.1 HTTP の接続
+- **Route53 で新規ドメインを取得する**
+- **既存ドメインを使用する場合**
+  - ホストゾーンを新たに作成した場合、ドメインのネームサーバーとホストゾーンのネームサーバーが一致していることを確認する。
+    - これを行わないと、HTTP 接続ができなかったり、ACM (AWS Certificate Manager) の検証が保留のままになる。
 
-- ALB を作成
+## 4.2 HTTP 接続の設定
 
-- 種類
-  - ALB
-- 基本的な設定
-  - ロードバランサー名
-    - tamusite-prod-alb
-  - スキーム
-    - インターネット向け
-  - IP アドレスタイプ
-    - IPv4
-- ネットワークマッピング
-  - vpc
-    - tamusite-prod-vpc
-  - az を 2 つ以上選択
-    - ap-northeast-1a (apne1-az4)
-      - tamusite-prod-public-subnet
-- セキュリティグループ
+### ALB (Application Load Balancer) の作成
 
-  - tamusite-prod-alb-sg
+1. **ALB の基本設定**
 
-- ターゲットグループ
-  - tamusite-prod-tg
-  - 作成した EC2 をターゲットに設定
-- ALB を作成
-  - DNS で HTTP 接続できるか確認
+   - 種類: ALB
+   - ロードバランサー名: `tamusite-prod-alb`
+   - スキーム: インターネット向け
+   - IP アドレスタイプ: IPv4
 
-# HTTPS を作成
+2. **ネットワークマッピング**
 
-- Certificate Manager で証明書のリクエストを送る
+   - VPC: `tamusite-prod-vpc`
+   - AZ (アベイラビリティゾーン): 2 つ以上選択
+     - ap-northeast-1a (apne1-az4)と ap-northeast-1c
+     - サブネット: `tamusite-prod-public-subnet`
 
-- Route53 のホストゾーンを作成
+3. **セキュリティグループ**
 
-  - Certificate Manager で CNAME タイプのレコードを作成して紐付け
-  - A レコードを作成
-    - tamusite-prod-alb を指定
+   - 名前: `tamusite-prod-alb-sg`
 
-- ALB に HTTPS 用のリスナーを作成する
+4. **ターゲットグループ**
 
-  - HTTPS の 443 を指定
-  - ターゲットグループ
-    - tamusite-prod-tg
-  - デフォルト SSL/TLS サーバー証明書
-    - ACM から
-      - 証明書を選択
+   - 名前: `tamusite-prod-tg`
+   - 作成した EC2 インスタンスをターゲットとして設定
 
-- 80 ポートのリスナーは https へリダイレクトさせる修正を行うことで誤って http 接続になるのを防ぐ
+5. **ALB の作成**
+   - 作成後、DNS にて HTTP 接続できることを確認する。
 
-## そのほか必要なこと
+## 4.3 HTTPS 接続の設定
 
-- EC2 の中にファイルを github から持ってきたい
+1. **証明書の取得**
 
-  - https://zenn.dev/oreo2990/articles/d6e7837c64e6fc
-  - https://zenn.dev/emily_mz/scraps/c2f0dbd34ea336
-  - nat gateway が必要そう
-  - github に ec2 で生成した公開鍵を置く
-    - https://zenn.dev/torahack/scraps/c2e5a2199af2b3
+   - AWS Certificate Manager で証明書リクエストを送信。
 
-- npm がまだ入ってなさそう
-- elastic ip を削除する
+2. **Route53 ホストゾーンの設定**
 
-- amazon 2023 に AMI を選択してインスタンスを新たに作成
+   - CNAME レコードを Certificate Manager から作成し、ドメインに紐付け。
+   - A レコードを作成し、ALB (`tamusite-prod-alb`) を指定。
 
-  - nat gateway も作成
-  - 以下のコマンドで node を管理
-    ```bash
-      curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
-      nvm install 20
-    ```
-    - https://zenn.dev/yohei_watanabe/articles/dfda076654037f
-  - git をインストールして、github からファイルをダウンロード
-    - https://zenn.dev/torahack/scraps/c2e5a2199af2b3
-    - 不要な階層にファイルをダウンロードしてしまったときのディレクトリごと削除コマンド
-      - `rm -rf <ディレクトリ名>`
-      - https://uxmilk.jp/8318
+3. **ALB に HTTPS リスナーを作成**
 
-- nginx の html にビルドしたファイルを移動させれば、問題なくサイトが表示される
+   - リスナーポート: 443 (HTTPS)
+   - ターゲットグループ: `tamusite-prod-tg`
+   - SSL/TLS サーバー証明書: ACM から取得した証明書を選択。
+
+4. **HTTP (80 番ポート) から HTTPS へのリダイレクト**
+   - 80 番ポートのリスナーに、HTTPS (443 番ポート) へのリダイレクト設定を追加し、誤って HTTP 接続になるのを防ぐ。
