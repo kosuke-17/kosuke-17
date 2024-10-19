@@ -1,5 +1,10 @@
 # 4. HTTP/HTTPS の接続
 
+- Route53 で新規でドメインを取得する
+- ドメインを既に取得していた場合
+  - ホストゾーンを新たに作成する場合はドメインのネームサーバーの値とホストゾーンのネームサーバーの値が同じであることを確認する
+    - そうしないと http ができなかったり ACM の検証が保留中のままだったりする
+
 ## 4.1 HTTP の接続
 
 - ALB を作成
@@ -31,7 +36,6 @@
 
 # HTTPS を作成
 
-- Route53 で DNS を登録する
 - Certificate Manager で証明書のリクエストを送る
 
 - Route53 のホストゾーンを作成
@@ -41,9 +45,40 @@
     - tamusite-prod-alb を指定
 
 - ALB に HTTPS 用のリスナーを作成する
+
   - HTTPS の 443 を指定
   - ターゲットグループ
     - tamusite-prod-tg
   - デフォルト SSL/TLS サーバー証明書
     - ACM から
       - 証明書を選択
+
+## そのほか必要なこと
+
+- EC2 の中にファイルを github から持ってきたい
+
+  - https://zenn.dev/oreo2990/articles/d6e7837c64e6fc
+  - https://zenn.dev/emily_mz/scraps/c2f0dbd34ea336
+  - nat gateway が必要そう
+  - github に ec2 で生成した公開鍵を置く
+    - https://zenn.dev/torahack/scraps/c2e5a2199af2b3
+
+- npm がまだ入ってなさそう
+- elastic ip を削除する
+
+- amazon 2023 に AMI を選択してインスタンスを新たに作成
+
+  - nat gateway も作成
+  - 以下のコマンドで node を管理
+    ```bash
+      curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+      nvm install 20
+    ```
+    - https://zenn.dev/yohei_watanabe/articles/dfda076654037f
+  - git をインストールして、github からファイルをダウンロード
+    - https://zenn.dev/torahack/scraps/c2e5a2199af2b3
+    - 不要な階層にファイルをダウンロードしてしまったときのディレクトリごと削除コマンド
+      - `rm -rf <ディレクトリ名>`
+      - https://uxmilk.jp/8318
+
+- nginx の html にビルドしたファイルを移動させれば、問題なくサイトが表示される
