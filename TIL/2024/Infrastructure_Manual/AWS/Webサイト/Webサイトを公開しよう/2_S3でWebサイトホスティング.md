@@ -9,7 +9,7 @@
 ### 2.1.1 一般的な設定
 
 - バケット名
-  - `tamusite.com`
+  - `test.com`
 - オブジェクト所有者
   - `ACL 無効`
     - 他の AWS アカウントも所有者となれるかどうか
@@ -76,7 +76,7 @@
                 "s3:GetObject" // 読み取りの操作
             ],
             "Resource": [ // 何に対して
-                "arn:aws:s3:::tamusite.com/*" // 対象
+                "arn:aws:s3:::test.com/*" // 対象
             ]
         }
     ]
