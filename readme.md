@@ -1,18 +1,12 @@
-<img src="./img/header.png"/>
-
 # Skills
 
 ### 😎 実務経験あり(1 年以上)
 
-<img alt="my skills" src="https://skillicons.dev/icons?theme=light&perline=8&i=ts,js,html,css,nodejs,react,nextjs,nestjs,redux,prisma,aws,materialui,jest,git,github,figma,vscode" />
+<img alt="my skills" src="https://skillicons.dev/icons?theme=light&perline=8&i=ts,js,html,css,ruby,nodejs,react,nextjs,nestjs,redux,prisma,aws,materialui,jest,git,github,figma,vscode" />
 
-### 😚 実務経験あり(1 年未満)
+### 😄 実務経験あり(1 年未満)
 
 <img alt="my skills" src="https://skillicons.dev/icons?theme=light&perline=8&i=mongodb,docker,fastapi,py,mysql,postman" />
-
-### 😇 実務経験なし
-
-<img alt="my skills" src="https://skillicons.dev/icons?theme=light&perline=8&i=vue,tailwind,apollo,graphql,heroku,firebase,rails,ruby" />
 
 ## 📈 Status
 
