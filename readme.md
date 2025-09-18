@@ -1,6 +1,8 @@
-# Skills
+# 個人ブログ
 
-個人ブログ: https://tamusite.com/
+https://tamusite.com/
+
+# Skills
 
 ### 😎 実務経験あり(1 年以上)
 
