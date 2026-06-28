@@ -1,7 +1,3 @@
-# 個人ブログ
-
-https://www.tamusite.com/
-
 # Skills
 
 ### 実務経験あり
