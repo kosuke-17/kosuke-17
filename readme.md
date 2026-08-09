@@ -21,10 +21,3 @@ egress firewall つきで、残っているリスクもドキュメントに明�
 ドメインエキスパートが自分1人しかいない環境で、DDD の協働モデリングを成立させるための skill / subagent 群。
 EventStorming とドメインストーリーテリングを AI ロール（アーキテクト・懐疑派・書記）と回して、
 確定した理解をユビキタス言語辞書・ドメインモデルとして残します。
-
-## 📊 GitHub Stats
-
-<p>
-  <img align="center" src="https://github-readme-stats.vercel.app/api?username=kosuke-17&show_icons=true&theme=default&hide_border=false" alt="kosuke-17's GitHub stats" height="165" />
-  <img align="center" src="https://github-readme-stats.vercel.app/api/top-langs/?username=kosuke-17&layout=compact&theme=default&langs_count=8" alt="Top Languages" height="165" />
-</p>
